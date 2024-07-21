@@ -135,6 +135,9 @@ class DialPad extends StatefulWidget {
   /// Add dial button icon size. Defaults to [75].
   final double? dialButtonIconSize;
 
+  /// Dial Button display style (clipping). Defaults to [ButtonType.rectangle].
+  final ButtonType dialButtonType;
+
   /// Add dial button content padding. Defaults to [EdgeInsets.zero].
   final EdgeInsets? dialContentPadding;
 
@@ -194,6 +197,7 @@ class DialPad extends StatefulWidget {
     this.minScalingSize = 0.2,
     this.maxScalingSize = 1.0,
     this.dialButtonIconSize,
+    this.dialButtonType = ButtonType.rectangle,
     this.dialContentPadding,
     this.backspaceContentPadding,
     this.keyButtonContentPadding,
@@ -395,7 +399,7 @@ class _DialPadState extends State<DialPad> {
         : ActionButton(
             iconSize: widget.dialButtonIconSize ?? 75,
             padding: widget.dialButtonPadding ?? widget.buttonPadding,
-            buttonType: widget.buttonType,
+            buttonType: widget.dialButtonType,
             icon: widget.dialButtonIcon,
             iconColor: widget.dialButtonIconColor,
             color: widget.dialButtonColor,
