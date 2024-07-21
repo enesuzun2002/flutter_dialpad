@@ -4,7 +4,15 @@ import 'package:flutter/services.dart';
 import '../mixins/scalable.dart';
 import 'scalable/scalable.dart';
 
-typedef CopyToClipboardBuilder = Widget Function(BuildContext context, VoidCallback onCopyPressed);
+typedef CopyToClipboardBuilder = Widget Function(
+    BuildContext context, VoidCallback onCopyPressed);
+
+class NoKeyboardFocusNode extends FocusNode {
+  @override
+  bool consumeKeyboardToken() {
+    return false;
+  }
+}
 
 class PhoneTextField extends StatelessWidget with Scalable {
   /// TextStyle for the text field.
@@ -78,7 +86,10 @@ class PhoneTextField extends StatelessWidget with Scalable {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final size = rescale(screenSize, scalingType, textSize, scalingSize: scalingSize, minClamp: minScalingSize, maxClamp: maxScalingSize);
+    final size = rescale(screenSize, scalingType, textSize,
+        scalingSize: scalingSize,
+        minClamp: minScalingSize,
+        maxClamp: maxScalingSize);
 
     final _builtTextStyle = TextStyle(
       color: textColor,
@@ -91,13 +102,15 @@ class PhoneTextField extends StatelessWidget with Scalable {
       readOnly: readOnly,
       textAlign: textAlign,
       controller: controller,
+      focusNode: NoKeyboardFocusNode(),
     );
 
     if (copyToClipboard) {
       return Row(
         children: [
           Expanded(child: textField),
-          copyToClipboardBuilder?.call(context, _onCopyPressed) ?? _defaultCopyToClipboardBuilder(),
+          copyToClipboardBuilder?.call(context, _onCopyPressed) ??
+              _defaultCopyToClipboardBuilder(),
         ],
       );
     } else {
